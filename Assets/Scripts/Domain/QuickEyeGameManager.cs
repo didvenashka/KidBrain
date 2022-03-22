@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class ReactMatchGameManager : IReactMatchGameManager
+public class QuickEyeGameManager : IQuickEyeGameManager
 {
     private static readonly Random _random = new Random();
     private const int _numberOfPictures = 10;
@@ -10,11 +10,11 @@ public class ReactMatchGameManager : IReactMatchGameManager
     private const int _numberOfVariants = 4;
     private const int _durationOfAllVariantsInSeconds = 2;
 
-    public ReactMatchGame CreateNewGame()
+    public QuickEyeGame CreateNewGame()
     {
         var matches = CreateMatches(_numberOfMatches);
 
-        return new ReactMatchGame
+        return new QuickEyeGame
         {
             Matches = matches
         };

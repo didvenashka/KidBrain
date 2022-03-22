@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class ReactMatchGame
+public class QuickEyeGame
 {
     public IEnumerable<Match> Matches { get; set; }
 }

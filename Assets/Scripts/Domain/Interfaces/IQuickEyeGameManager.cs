@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
-public interface IReactMatchGameManager
+public interface IQuickEyeGameManager
 {
-    ReactMatchGame CreateNewGame();
+    QuickEyeGame CreateNewGame();
     IEnumerable<int> GetNewVariants(int numberOfVariants, int mainPictureId);
 }
