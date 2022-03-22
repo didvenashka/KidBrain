@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public interface IQuickEyeGameManager
+public interface IQuickEyeGameManager : IGameManager<QuickEyeGame>
 {
-    QuickEyeGame CreateNewGame();
     IEnumerable<int> GetNewVariants(int numberOfVariants, int mainPictureId);
 }

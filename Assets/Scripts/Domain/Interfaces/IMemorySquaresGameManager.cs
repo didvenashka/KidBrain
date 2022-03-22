@@ -1,4 +1,3 @@
-﻿public interface IMemorySquaresGameManager
+﻿public interface IMemorySquaresGameManager : IGameManager<MemorySquaresGame>
 {
-    MemorySquaresGame CreateNewGame();
 }

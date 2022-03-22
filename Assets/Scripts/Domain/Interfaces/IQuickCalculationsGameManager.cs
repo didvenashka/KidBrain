@@ -1,4 +1,3 @@
-public interface IQuickCalculationsGameManager
+public interface IQuickCalculationsGameManager : IGameManager<QuickCalculationsGame>
 {
-    QuickCalculationsGame CreateNewGame();
 }
