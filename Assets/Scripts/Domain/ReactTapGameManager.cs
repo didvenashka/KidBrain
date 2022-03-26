@@ -5,7 +5,7 @@ using System.Numerics;
 
 public class ReactTapGameManager : IReactTapGameManager
 {
-    private static readonly Random _random = new Random();
+    private readonly Random _random = new Random();
     private const int _gameDurationInSeconds = 30;
     private const int _circleDurationInSeconds = 1;
     private const float _minRadius = 1;

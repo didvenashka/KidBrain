@@ -4,7 +4,7 @@ using System.Linq;
 
 public class QuickEyeGameManager : IQuickEyeGameManager
 {
-    private static readonly Random _random = new Random();
+    private readonly Random _random = new Random();
     private const int _numberOfPictures = 10;
     private const int _numberOfMatches = 10;
     private const int _numberOfVariants = 4;

@@ -2,21 +2,33 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 public class QuickCalculationsGameManager : IQuickCalculationsGameManager
 {
-    private static readonly Random _random = new Random();
+    private readonly Random _random = new Random();
+    private const int _numberOfVariants = 4;
+    private const int _shiftPercent = 20;
+    private const int _minShift = 4;
+    private readonly int _numberOfPositions = Enum.GetValues(typeof(Position)).Length;
 
     public QuickCalculationsGame CreateNewGame()
     {
         var equations = new List<Equation>();
 
-        foreach (var difficulty in (Difficulty[])Enum.GetValues(typeof(Difficulty)))
+        var operations = GetOperations();
+        var difficulties = GetDifficulties();
+
+        foreach (var difficulty in difficulties)
         {
-            for (int i = 0; i < 4; i++)
+            operations = operations
+                .OrderBy(o => Guid.NewGuid())
+                .ToList();
+
+            foreach (var operation in operations)
             {
-                var operation = (Operation)_random.Next(2 * (i / 2), 2 * (i / 2) + 2);
-                equations.Add(CreateEquation(difficulty, operation));
+                var equation = CreateEquation(difficulty, operation);
+                equations.Add(equation);
             }
         }
 
@@ -26,13 +38,34 @@ public class QuickCalculationsGameManager : IQuickCalculationsGameManager
         };
     }
 
-    private static Equation CreateEquation(Difficulty difficulty, Operation operation)
+    private List<Difficulty> GetDifficulties()
+    {
+        return Assembly
+            .GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => t.IsSubclassOf(typeof(Difficulty)))
+            .Select(t => Activator.CreateInstance(t) as Difficulty)
+            .OrderBy(d => d.Points)
+            .ToList();
+    }
+
+    private List<IOperation> GetOperations()
+    {
+        return Assembly
+            .GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => typeof(IOperation).IsAssignableFrom(t) && t != typeof(IOperation))
+            .Select(t => Activator.CreateInstance(t) as IOperation)
+            .ToList();
+    }
+
+    private Equation CreateEquation(Difficulty difficulty, IOperation operation)
     {
         var (firstNumber, secondNumber) = GenerateNumbers(difficulty, operation);
 
         int answer = GetAnswer(operation, firstNumber, secondNumber);
 
-        var hiddenPosition = (Position)_random.Next(3);
+        var hiddenPosition = (Position)_random.Next(_numberOfPositions);
 
         var hiddenNumber = hiddenPosition switch
         {
@@ -47,12 +80,12 @@ public class QuickCalculationsGameManager : IQuickCalculationsGameManager
         var variants = Enumerable
             .Range(leftBound, rightBound - leftBound)
             .OrderBy(x => Guid.NewGuid())
-            .Take(4)
+            .Take(_numberOfVariants)
             .ToArray();
 
         if (!variants.Contains(hiddenNumber))
         {
-            variants[_random.Next(4)] = hiddenNumber;
+            variants[_random.Next(_numberOfVariants)] = hiddenNumber;
         }
 
         return new Equation
@@ -66,154 +99,22 @@ public class QuickCalculationsGameManager : IQuickCalculationsGameManager
         };
     }
 
-    private static int GetAnswer(Operation operation, int firstNumber, int secondNumber)
+    private int GetAnswer(IOperation operation, int firstNumber, int secondNumber)
     {
-        return operation switch
-        {
-            Operation.Add => firstNumber + secondNumber,
-            Operation.Subtract => firstNumber - secondNumber,
-            Operation.Multiply => firstNumber * secondNumber,
-            Operation.Divide => firstNumber / secondNumber,
-            _ => throw new InvalidEnumArgumentException()
-        };
+        return operation.Operate(firstNumber, secondNumber);
     }
 
-    private static (int, int) GenerateNumbers(Difficulty difficulty, Operation operation)
+    private (int, int) GenerateNumbers(Difficulty difficulty, IOperation operation)
     {
-        return difficulty switch
-        {
-            Difficulty.Easy => GenerateNumbersForEasy(operation),
-            Difficulty.Medium => GenerateNumbersForMedium(operation),
-            Difficulty.Hard => GenerateNumbersForHard(operation),
-            _ => throw new InvalidEnumArgumentException()
-        };
+        return operation.GenerateNumbers(difficulty);
     }
 
-    private static (int, int) GenerateNumbersForEasy(Operation operation)
+    private (int, int) GetBounds(int hiddenNumber)
     {
-        var firstNumber = 0;
-        var secondNumber = 0;
-
-        if (operation == Operation.Add)
-        {
-            firstNumber = _random.Next(1, 10);
-            secondNumber = _random.Next(1, 10);
-        }
-
-        if (operation == Operation.Subtract)
-        {
-            firstNumber = _random.Next(2, 10);
-            secondNumber = _random.Next(1, firstNumber);
-        }
-
-        if (operation == Operation.Multiply)
-        {
-            firstNumber = _random.Next(2, 10);
-            secondNumber = _random.Next(2, 10);
-        }
-
-        if (operation == Operation.Divide)
-        {
-            secondNumber = _random.Next(2, 10);
-            firstNumber = secondNumber * _random.Next(2, 10);
-        }
-
-        return (firstNumber, secondNumber);
-    }
-
-    private static (int, int) GenerateNumbersForMedium(Operation operation)
-    {
-        var firstNumber = 0;
-        var secondNumber = 0;
-
-        if (operation == Operation.Add)
-        {
-            firstNumber = _random.Next(10, 100);
-            secondNumber = _random.Next(10, 100);
-        }
-
-        if (operation == Operation.Subtract)
-        {
-            firstNumber = _random.Next(11, 100);
-            secondNumber = _random.Next(10, firstNumber);
-        }
-
-        if (operation == Operation.Multiply)
-        {
-            firstNumber = _random.Next(2, 10);
-            secondNumber = _random.Next(10, 50);
-        }
-
-        if (operation == Operation.Divide)
-        {
-            secondNumber = _random.Next(10, 50);
-            firstNumber = secondNumber * _random.Next(2, 10);
-        }
-
-        return (firstNumber, secondNumber);
-    }
-
-    private static (int, int) GenerateNumbersForHard(Operation operation)
-    {
-        var firstNumber = 0;
-        var secondNumber = 0;
-
-        if (operation == Operation.Add)
-        {
-            firstNumber = _random.Next(100, 1000);
-            secondNumber = _random.Next(100, 1000);
-        }
-
-        if (operation == Operation.Subtract)
-        {
-            firstNumber = _random.Next(101, 1000);
-            secondNumber = _random.Next(100, firstNumber);
-        }
-
-        if (operation == Operation.Multiply)
-        {
-            firstNumber = _random.Next(10, 50);
-            secondNumber = _random.Next(10, 50);
-        }
-
-        if (operation == Operation.Divide)
-        {
-            secondNumber = _random.Next(10, 50);
-            firstNumber = secondNumber * _random.Next(10, 50);
-        }
-
-        return (firstNumber, secondNumber);
-    }
-
-    private static (int, int) GetBounds(int hiddenNumber)
-    {
-        var leftBound = 1;
-        var rightBound = 0;
-
-        if (hiddenNumber < 10)
-        {
-            rightBound = 10;
-        }
-        else if (hiddenNumber < 30)
-        {
-            leftBound = 10;
-            rightBound = 50;
-        }
-        else if (hiddenNumber < 100)
-        {
-            leftBound = hiddenNumber - 20;
-            rightBound = hiddenNumber + 20;
-        }
-        else if (hiddenNumber < 300)
-        {
-            leftBound = 100;
-            rightBound = 400;
-        }
-        else
-        {
-            leftBound = hiddenNumber - 200;
-            rightBound = hiddenNumber + 200;
-        }
+        var shift = hiddenNumber * _shiftPercent / 100;
+        shift = Math.Max(_minShift, shift);
+        var (leftBound, rightBound) = (hiddenNumber - shift, hiddenNumber + shift);
+        leftBound = Math.Max(1, leftBound);
 
         return (leftBound, rightBound);
     }

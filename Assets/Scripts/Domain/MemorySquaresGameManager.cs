@@ -4,7 +4,7 @@ using System.Linq;
 
 public class MemorySquaresGameManager : IMemorySquaresGameManager
 {
-    private static readonly Random _random = new Random();
+    private readonly Random _random = new Random();
     private const int _numberOfUnits = 4;
     private const int _numberOfSequences = 12;
     private const int _durationInSeconds = 8;
@@ -19,7 +19,7 @@ public class MemorySquaresGameManager : IMemorySquaresGameManager
         };
     }
 
-    private static IEnumerable<Sequence> CreateSequences(int numberOfSequences)
+    private IEnumerable<Sequence> CreateSequences(int numberOfSequences)
     {
         var sequences = new List<Sequence>();
 
@@ -32,7 +32,7 @@ public class MemorySquaresGameManager : IMemorySquaresGameManager
         return sequences;
     }
 
-    private static Sequence CreateSequence(int length)
+    private Sequence CreateSequence(int length)
     {
         var sequence = new List<int>();
 
