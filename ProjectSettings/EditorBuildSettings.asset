@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/ReactTapGame.unity
+    guid: a27aa0078fc100341b3b9713f70ba83e
   m_configObjects: {}
