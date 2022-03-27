@@ -26,11 +26,14 @@ public class ReactTapGameManager : IReactTapGameManager
 
     private IEnumerable<Circle> CreateCircles()
     {
-        var radius = (float)(_minRadius + _random.NextDouble() * (_maxRadius - _minRadius));
-        var speed = (float)(_minSpeed + _random.NextDouble() * (_maxSpeed - _minSpeed));
-        var color = ColorPicker.GetRandomColor();
+        while (true)
+        {
+            var radius = (float)(_minRadius + _random.NextDouble() * (_maxRadius - _minRadius));
+            var speed = (float)(_minSpeed + _random.NextDouble() * (_maxSpeed - _minSpeed));
+            var color = ColorPicker.GetRandomColor();
 
-        yield return CreateCircle(radius, speed, color);
+            yield return CreateCircle(radius, speed, color);
+        }
     }
 
     private Circle CreateCircle(float radius, float speed, Color color)
@@ -47,10 +50,13 @@ public class ReactTapGameManager : IReactTapGameManager
 
     private IEnumerable<Vector2> CreateRandomPath()
     {
-        var x = (float)_random.NextDouble();
-        var y = (float)_random.NextDouble();
-        var point = new Vector2(x, y);
+        while (true)
+        {
+            var x = (float)_random.NextDouble();
+            var y = (float)_random.NextDouble();
+            var point = new Vector2(x, y);
 
-        yield return point;
+            yield return point;
+        }
     }
 }

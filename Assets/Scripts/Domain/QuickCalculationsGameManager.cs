@@ -54,16 +54,16 @@ public class QuickCalculationsGameManager : IQuickCalculationsGameManager
         return Assembly
             .GetExecutingAssembly()
             .GetTypes()
-            .Where(t => typeof(IOperation).IsAssignableFrom(t) && t != typeof(IOperation))
+            .Where(t => typeof(IOperation).IsAssignableFrom(t) && !t.IsInterface)
             .Select(t => Activator.CreateInstance(t) as IOperation)
             .ToList();
     }
 
     private Equation CreateEquation(Difficulty difficulty, IOperation operation)
     {
-        var (firstNumber, secondNumber) = GenerateNumbers(difficulty, operation);
+        var (firstNumber, secondNumber) = operation.GenerateNumbers(difficulty);
 
-        int answer = GetAnswer(operation, firstNumber, secondNumber);
+        int answer = operation.Operate(firstNumber, secondNumber);
 
         var hiddenPosition = (Position)_random.Next(_numberOfPositions);
 
@@ -97,16 +97,6 @@ public class QuickCalculationsGameManager : IQuickCalculationsGameManager
             Operation = operation,
             Variants = variants
         };
-    }
-
-    private int GetAnswer(IOperation operation, int firstNumber, int secondNumber)
-    {
-        return operation.Operate(firstNumber, secondNumber);
-    }
-
-    private (int, int) GenerateNumbers(Difficulty difficulty, IOperation operation)
-    {
-        return operation.GenerateNumbers(difficulty);
     }
 
     private (int, int) GetBounds(int hiddenNumber)
