@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee85b6a28a4411443aa3f17ff0867e49, type: 3}
+  m_Name: Avatars
+  m_EditorClassIdentifier: 
+  avatars:
+  - {fileID: 21300000, guid: 7aaf0b64e9f964846b9bfb181eb65c86, type: 3}
+  - {fileID: 21300000, guid: d4affa26cd46a8a4db1ade4896536e29, type: 3}
+  - {fileID: 21300000, guid: 583ddf566148cb44db4340620dc101d4, type: 3}
+  - {fileID: 21300000, guid: ab0b4288b3d77d94faea8001e9f03887, type: 3}
+  - {fileID: 21300000, guid: 5ec2b57e4248e3a4f93a899b4d1fac75, type: 3}
+  - {fileID: 21300000, guid: c90eb8a06160f7c4ea7dfb9e2ac0e9be, type: 3}
+  - {fileID: 21300000, guid: 0e5f1e9bb0884664e893013e0c209ba7, type: 3}
+  - {fileID: 21300000, guid: 9b16c0a43b06e3a488f3a8ff78b9a800, type: 3}
+  - {fileID: 21300000, guid: f73a0c452fd20f440b9011f8222d58e3, type: 3}

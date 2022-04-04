@@ -19,4 +19,6 @@ public class MultiplyOperation : IOperation
 
         return (firstNumber, secondNumber);
     }
+
+    public string Symbol() => "·";
 }

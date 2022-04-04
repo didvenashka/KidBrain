@@ -18,4 +18,6 @@ public class AddOperation : IOperation
 
         return (firstNumber, secondNumber);
     }
+
+    public string Symbol() => "+";
 }

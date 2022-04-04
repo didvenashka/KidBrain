@@ -18,4 +18,6 @@ public class SubtractOperation : IOperation
 
         return (firstNumber, secondNumber);
     }
+
+    public string Symbol() => "-";
 }

@@ -19,4 +19,6 @@ public class DivideOperation : IOperation
 
         return (firstNumber, secondNumber);
     }
+
+    public string Symbol() => "÷";
 }
