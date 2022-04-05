@@ -1,13 +1,16 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class SignUpMenu : MonoBehaviour
 {
     [SerializeField] Avatar[] avatars;
     [SerializeField] AvatarsSO avatarSO;
     [SerializeField] TMP_InputField nameInput;
+    [SerializeField] SharedSignScene fromScene;
+
+    [SerializeField] PlayerRepository playerRepository;
+
     int _selectedAvatar = -1;
     string _name = "";
 
@@ -18,6 +21,13 @@ public class SignUpMenu : MonoBehaviour
             avatars[i].Set(avatarSO.avatars[i], i);
             avatars[i].Click += AvatarClicked;
         }
+
+        _name = playerRepository.Name;
+        _selectedAvatar = playerRepository.Avatar;
+
+        if (_selectedAvatar != -1)
+            avatars[_selectedAvatar].Select();
+        nameInput.text = _name;
     }
 
     private void OnDestroy()
@@ -38,8 +48,11 @@ public class SignUpMenu : MonoBehaviour
     {
         _name = nameInput.text;
         if (_selectedAvatar == -1 || _name.Length == 0) return;
-        PlayerPrefs.SetString("Name", _name);
-        PlayerPrefs.SetInt("Avatar", _selectedAvatar);
-        SceneManager.LoadScene(1); //main menu scene
+        playerRepository.SetName(_name);
+        playerRepository.SetAvatar(_selectedAvatar);
+        if (fromScene.Scene == Scenes.Splash)
+            SceneManager.LoadScene(Scenes.Main);
+        if (fromScene.Scene == Scenes.Stats)
+            SceneManager.LoadScene(Scenes.Stats);
     }
 }

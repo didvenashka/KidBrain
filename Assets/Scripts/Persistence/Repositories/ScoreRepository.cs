@@ -12,15 +12,7 @@ public class ScoreRepository : IScoreRepository
     {
         var path = Path.Combine(_pathBase, _fileName);
 
-        var statistic = new Statistic();
-        if (!File.Exists(path))
-        {
-            File.WriteAllText(path, JsonConvert.SerializeObject(statistic));
-        }
-        else
-        {
-            statistic = JsonConvert.DeserializeObject<Statistic>(File.ReadAllText(path));
-        }
+        var statistic = GetStatistic();
 
         if (!statistic.GameStatistics.ContainsKey(gameType.Name))
         {
@@ -42,5 +34,21 @@ public class ScoreRepository : IScoreRepository
 
         var json = JsonConvert.SerializeObject(statistic);
         File.WriteAllText(path, json);
+    }
+
+    public Statistic GetStatistic()
+    {
+        var path = Path.Combine(_pathBase, _fileName);
+
+        var statistic = new Statistic();
+        if (!File.Exists(path))
+        {
+            File.WriteAllText(path, JsonConvert.SerializeObject(statistic));
+        }
+        else
+        {
+            statistic = JsonConvert.DeserializeObject<Statistic>(File.ReadAllText(path));
+        }
+        return statistic;
     }
 }
