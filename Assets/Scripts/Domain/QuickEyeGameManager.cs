@@ -5,10 +5,17 @@ using System.Linq;
 public class QuickEyeGameManager : IQuickEyeGameManager
 {
     private readonly Random _random = new Random();
-    private const int _numberOfPictures = 10;
+    //private readonly IPicturesRepository _picturesRepository;
+    private const int _numberOfPictures = 10; //TODO get number from repository (+ create PicturesRepository)
     private const int _numberOfMatches = 10;
     private const int _numberOfVariants = 4;
     private const int _durationOfAllVariantsInSeconds = 2;
+    //TODO add rotation (0, 90, 180, 270) + pictureId -> PictureModel + pictureCollectionId
+
+    public QuickEyeGameManager(/*IPicturesRepository picturesRepository*/)
+    {
+        //_picturesRepository = picturesRepository;
+    }
 
     public QuickEyeGame CreateNewGame()
     {

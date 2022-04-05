@@ -8,6 +8,7 @@ public class Equation
     public Position HiddenPosition { get; set; }
     public IOperation Operation { get; set; }
     public IEnumerable<int> Variants { get; set; }
+    public int Reward { get; set; }
 
     public string StringRepresentation()
     {
@@ -17,7 +18,7 @@ public class Equation
             SecondNumber.ToString(),
             Answer.ToString(),
         };
-        int hidden = (int) HiddenPosition;
+        int hidden = (int)HiddenPosition;
         components[hidden] = "?";
         return $"{components[0]} {Operation.Symbol()} {components[1]} = {components[2]}";
     }

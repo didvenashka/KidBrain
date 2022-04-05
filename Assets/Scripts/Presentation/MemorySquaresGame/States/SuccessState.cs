@@ -1,12 +1,12 @@
-using DG.Tweening;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SuccessState : MemoryGameState
 {
     Image resultSignal;
-    public SuccessState(TileState state, IMemoryGameStateSwitcher switcher, Image img) : base(state, switcher) 
+    public SuccessState(TileState state, IMemoryGameStateSwitcher switcher, Image img) : base(state, switcher)
     {
         resultSignal = img;
     }
@@ -26,11 +26,7 @@ public class SuccessState : MemoryGameState
         colorSequence.Append(resultSignal.DOColor(startColor, 0.3f));
         yield return colorSequence.WaitForCompletion();
         stateSwitcher.MoveNext();
-        if (stateSwitcher.IsEnd())
-        {
-
-        }
-        else
+        if (!stateSwitcher.IsEnd())
         {
             stateSwitcher.SwitchState<ShowSequenceState>();
         }

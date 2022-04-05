@@ -95,7 +95,8 @@ public class QuickCalculationsGameManager : IQuickCalculationsGameManager
             Answer = answer,
             HiddenPosition = hiddenPosition,
             Operation = operation,
-            Variants = variants
+            Variants = variants,
+            Reward = difficulty.Points
         };
     }
 

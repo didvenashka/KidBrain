@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class MemorySquaresGameController : MonoBehaviour, IMemoryGameStateSwitcher
 {
     [SerializeField] TileScript[] tiles;
     [SerializeField] TileState tileSharedState;
     [SerializeField] Image resultSignal;
+
+    [Inject]
+    private readonly IMemorySquaresGameManager _memorySquaresGameManager = new MemorySquaresGameManager();
+
     MemorySquaresGame game;
 
     List<Sequence> _sequenceList;
@@ -24,7 +29,7 @@ public class MemorySquaresGameController : MonoBehaviour, IMemoryGameStateSwitch
             tiles[i].Index = i;
         }
         tileSharedState.TileClick += TileClicked;
-        game = new MemorySquaresGameManager().CreateNewGame();
+        game = _memorySquaresGameManager.CreateNewGame();
         _sequenceList = game.Sequences.ToList();
         _states = new List<MemoryGameState>()
         {

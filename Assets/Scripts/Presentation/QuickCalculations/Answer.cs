@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class Answer : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI answerText;
-    bool correct = false;
-    public event Action<bool> Click;
+    [SerializeField] public TextMeshProUGUI answerText;
+    public bool IsCorrect = false;
+    public event Action<bool, Answer> Click;
+    public static bool IsClickable = true;
 
     public void Set(string text, bool isCorrect)
     {
         answerText.text = text;
-        correct = isCorrect;
+        IsCorrect = isCorrect;
     }
 
     public void OnClick()
     {
-        Click?.Invoke(correct);
+        if (!IsClickable)
+        {
+            return;
+        }
+
+        Click?.Invoke(IsCorrect, this);
     }
 }
