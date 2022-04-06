@@ -13,8 +13,10 @@ public class QuickCalculationsController : MonoBehaviour
     [SerializeField] TextMeshProUGUI _equationText;
     [SerializeField] Answer[] _answers;
 
+    private PopupScript _popupScript;
+
     [Inject]
-    private readonly IQuickCalculationsGameManager _quickCalculationsGameManager;
+    private readonly IQuickCalculationsGameManager _quickCalculationsGameManager = new QuickCalculationsGameManager();
     private IScoreManager _scoreManager;
 
     private IEnumerator<Equation> _equationEnumerator;
@@ -22,7 +24,7 @@ public class QuickCalculationsController : MonoBehaviour
 
     void Start()
     {
-        var game = new QuickCalculationsGameManager().CreateNewGame();
+        var game = _quickCalculationsGameManager.CreateNewGame();
         _scoreManager = new ScoreManager(new ScoreRepository());
         _equationEnumerator = game.Equations.GetEnumerator();
         _equationEnumerator.MoveNext();
@@ -32,6 +34,10 @@ public class QuickCalculationsController : MonoBehaviour
         {
             _answers[i].Click += HandleAnswer;
         }
+
+        Answer.IsClickable = true;
+
+        _popupScript = gameObject.GetComponent<PopupScript>();
     }
 
     public void RenderCurrentEquation()
@@ -83,10 +89,8 @@ public class QuickCalculationsController : MonoBehaviour
         }
         else
         {
-            //END
+            _popupScript.Show(_score);
             _scoreManager.AddPoints(_score, typeof(QuickCalculationsGame));
-            //popup
-
         }
     }
 

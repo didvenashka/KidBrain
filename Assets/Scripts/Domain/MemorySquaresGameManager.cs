@@ -8,6 +8,7 @@ public class MemorySquaresGameManager : IMemorySquaresGameManager
     private const int _numberOfUnits = 4;
     private const int _numberOfSequences = 12;
     private const int _durationInSeconds = 8;
+    private const int _minLength = 4;
 
     public MemorySquaresGame CreateNewGame()
     {
@@ -25,7 +26,7 @@ public class MemorySquaresGameManager : IMemorySquaresGameManager
 
         for (int i = 0; i < numberOfSequences; i++)
         {
-            var sequence = CreateSequence(4 + i / 2);
+            var sequence = CreateSequence(_minLength + i / 2);
             sequences.Add(sequence);
         }
 
@@ -46,10 +47,13 @@ public class MemorySquaresGameManager : IMemorySquaresGameManager
             sequence.Add(randomIndex);
         }
 
+        var reward = length > _minLength ? length + 2 : length + 1;
+
         return new Sequence
         {
             Order = sequence,
-            DurationInSeconds = _durationInSeconds
+            DurationInSeconds = _durationInSeconds,
+            Reward = reward
         };
     }
 }

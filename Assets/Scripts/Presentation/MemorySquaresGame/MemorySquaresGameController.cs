@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -10,9 +11,13 @@ public class MemorySquaresGameController : MonoBehaviour, IMemoryGameStateSwitch
     [SerializeField] TileScript[] tiles;
     [SerializeField] TileState tileSharedState;
     [SerializeField] Image resultSignal;
+    [SerializeField] TextMeshProUGUI _scoreText;
+
+    private PopupScript _popupScript;
 
     [Inject]
     private readonly IMemorySquaresGameManager _memorySquaresGameManager = new MemorySquaresGameManager();
+    private IScoreManager _scoreManager;
 
     MemorySquaresGame game;
 
@@ -21,6 +26,8 @@ public class MemorySquaresGameController : MonoBehaviour, IMemoryGameStateSwitch
 
     List<MemoryGameState> _states;
     MemoryGameState _currentState;
+
+    private int _score = 0;
 
     void Start()
     {
@@ -40,6 +47,9 @@ public class MemorySquaresGameController : MonoBehaviour, IMemoryGameStateSwitch
         };
         _currentState = _states[0];
         _currentState.Start();
+
+        _scoreManager = new ScoreManager(new ScoreRepository());
+        _popupScript = gameObject.GetComponent<PopupScript>();
     }
 
     void OnDestroy()
@@ -64,14 +74,37 @@ public class MemorySquaresGameController : MonoBehaviour, IMemoryGameStateSwitch
 
     public void SwitchState<T>() where T : MemoryGameState
     {
-        print(_currentState.GetType().Name);
         MemoryGameState state = _states.FirstOrDefault(s => s is T);
         _currentState.Stop();
         _currentState = state;
+
+        if (_currentState.GetType() == typeof(SuccessState))
+        {
+            var currentReward = _sequenceList[_currentSequenceIndex].Reward;
+            _score += currentReward;
+            UpdateScore();
+        }
+
         _currentState.Start();
     }
 
-    public bool IsEnd() => _currentSequenceIndex == _sequenceList.Count;
+    private void UpdateScore()
+    {
+        _scoreText.text = $"Очки: {_score}";
+    }
+
+    public bool IsEnd()
+    {
+        var isEnd = _currentSequenceIndex == _sequenceList.Count;
+
+        if (isEnd)
+        {
+            _popupScript.Show(_score);
+            _scoreManager.AddPoints(_score, typeof(MemorySquaresGame));
+        }
+
+        return isEnd;
+    }
 
     public void MoveNext()
     {

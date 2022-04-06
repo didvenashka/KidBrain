@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,7 +27,7 @@ public class StatsScript : MonoBehaviour
         nameText.text = playerRepository.Name;
         avatar.sprite = avatarsSO.avatars[playerRepository.Avatar];
         Dictionary<string, GameStatistic> stats = new ScoreRepository().GetStatistic().GameStatistics;
-        float[] verticies = new float[5] { 0.1f, 0.1f, 0.1f, 0.1f, 1f };
+        float[] verticies = new float[5] { 0.2f, 0.2f, 0.2f, 0.2f, 1f };
         for (int i = 0; i < games.Length; i++)
         {
             int sum = 0;
@@ -45,7 +44,7 @@ public class StatsScript : MonoBehaviour
                     }
                 }
 
-                verticies[i] = (float)sum / countGames / 100f;
+                verticies[i] = (float)sum / countGames / 100f * 0.8f + 0.2f;
             }
         }
         poligon.DrawPolygon(4, verticies);

@@ -12,10 +12,10 @@ public class MultiplyOperation : IOperation
     public (int, int) GenerateNumbers(Difficulty difficulty)
     {
         var (leftBound, rightBound) = difficulty.MultiplyBounds;
-        var factor = difficulty.MultiplyFactor;
+        var factor = difficulty.ShiftFactor;
 
         var firstNumber = _random.Next(leftBound, rightBound);
-        var secondNumber = _random.Next(leftBound * factor, rightBound * factor);
+        var secondNumber = _random.Next(leftBound + factor, rightBound + factor);
 
         return (firstNumber, secondNumber);
     }

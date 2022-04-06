@@ -25,6 +25,7 @@ public class SuccessState : MemoryGameState
         colorSequence.Append(resultSignal.DOColor(endColor, 0.3f));
         colorSequence.Append(resultSignal.DOColor(startColor, 0.3f));
         yield return colorSequence.WaitForCompletion();
+
         stateSwitcher.MoveNext();
         if (!stateSwitcher.IsEnd())
         {

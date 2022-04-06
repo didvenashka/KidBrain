@@ -9,4 +9,5 @@ public class Circle
     public int DurationInSeconds { get; set; }
     public Color Color { get; set; }
     public IEnumerable<Vector2> Path { get; set; }
+    public int Reward { get; set; }
 }

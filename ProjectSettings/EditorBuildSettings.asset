@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ReactTapGame.unity
     guid: a27aa0078fc100341b3b9713f70ba83e
+  - enabled: 1
+    path: Assets/Scenes/MathScene.unity
+    guid: 1306f8fe4f98c93489c6a039a8a106df
+  - enabled: 1
+    path: Assets/Scenes/QuickEyeScene.unity
+    guid: b1d98c9862b83c245b07f57594917bb8
+  - enabled: 1
+    path: Assets/Scenes/Stats.unity
+    guid: 80afbb89e6fcaf64cbc3551b785968f2
   m_configObjects: {}

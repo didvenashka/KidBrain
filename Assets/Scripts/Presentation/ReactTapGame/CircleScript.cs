@@ -1,8 +1,9 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CircleScript : MonoBehaviour
 {
@@ -13,8 +14,10 @@ public class CircleScript : MonoBehaviour
     Vector2 spawnSize;
     Tween currentAnimation;
 
-    bool done = false;
-    public int Value { get; private set; } = 0;
+    [SerializeField] Image _signalRing;
+
+    public bool IsCircleCaught { get; private set; }
+    public bool IsCircleResolved { get; private set; }
 
     public void Init(Circle c, Vector2 spawnSize)
     {
@@ -35,11 +38,9 @@ public class CircleScript : MonoBehaviour
         currentAnimation?.Kill();
     }
 
-    public bool IsDone() => done;
-
     public void OnClick()
     {
-        DoneWithResult(1);
+        CompleteByCapture(true);
     }
 
     IEnumerator Move()
@@ -51,18 +52,29 @@ public class CircleScript : MonoBehaviour
             currentPos = pos;
             yield return currentAnimation.WaitForCompletion();
         }
-        
+
     }
 
     IEnumerator Timeout()
     {
         yield return new WaitForSeconds(circle.DurationInSeconds);
-        DoneWithResult(0);
+        yield return ShowFailure();
+        CompleteByCapture(false);
     }
 
-    void DoneWithResult(int result)
+    IEnumerator ShowFailure()
     {
-        Value = result;
-        done = true;
+        Color startColor = new Color32(231, 141, 141, 0);
+        Color endColor = new Color32(231, 141, 141, 255);
+        _signalRing.color = startColor;
+        DG.Tweening.Sequence colorSequence = DOTween.Sequence();
+        colorSequence.Append(_signalRing.DOColor(endColor, 0.3f));
+        yield return colorSequence.WaitForCompletion();
+    }
+
+    void CompleteByCapture(bool isCaught)
+    {
+        IsCircleCaught = isCaught;
+        IsCircleResolved = true;
     }
 }

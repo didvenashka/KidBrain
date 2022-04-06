@@ -22,7 +22,7 @@ public class UIPolygon : MaskableGraphic
             return m_Texture == null ? s_WhiteTexture : m_Texture;
         }
     }
-    public Texture texture
+    public Texture Texture
     {
         get
         {
@@ -82,10 +82,10 @@ public class UIPolygon : MaskableGraphic
         vh.Clear();
         Vector2 prevX = Vector2.zero;
         Vector2 prevY = Vector2.zero;
-        Vector2 uv0 = new Vector2(0, 0);
-        Vector2 uv1 = new Vector2(0, 1);
-        Vector2 uv2 = new Vector2(1, 1);
-        Vector2 uv3 = new Vector2(1, 0);
+        Vector2 uv0;
+        Vector2 uv1;
+        Vector2 uv2;
+        Vector2 uv3;
         Vector2 pos0;
         Vector2 pos1;
         Vector2 pos2;

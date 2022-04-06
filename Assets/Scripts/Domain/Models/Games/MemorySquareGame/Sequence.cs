@@ -4,4 +4,5 @@ public class Sequence
 {
     public IEnumerable<int> Order { get; set; }
     public int DurationInSeconds { get; set; }
+    public int Reward { get; set; }
 }

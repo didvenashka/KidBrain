@@ -11,7 +11,7 @@ public class SplashScript : MonoBehaviour
         StartCoroutine(Splash());
     }
 
-    // Update is called once per frame
+
     IEnumerator Splash()
     {
         yield return new WaitForSeconds(1f);

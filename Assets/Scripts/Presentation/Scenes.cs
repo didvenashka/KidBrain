@@ -4,6 +4,8 @@ public static class Scenes
     public static int SignUp = 1;
     public static int Main = 2;
     public static int MemorySquareGame = 3;
-    public static int ReactTapGame= 4;
-    public static int Stats = 5;
+    public static int ReactTapGame = 4;
+    public static int MathGame = 5;
+    public static int QuickEyeGame = 6;
+    public static int Stats = 7;
 }

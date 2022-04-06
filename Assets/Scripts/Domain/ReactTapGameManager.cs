@@ -7,11 +7,12 @@ public class ReactTapGameManager : IReactTapGameManager
 {
     private readonly Random _random = new Random();
     private const int _gameDurationInSeconds = 30;
-    private const int _circleDurationInSeconds = 1;
-    private const float _minRadius = 1;
+    private const int _circleDurationInSeconds = 3;
+    private const float _minRadius = 2;
     private const float _maxRadius = 3;
-    private const float _minSpeed = 1;
-    private const float _maxSpeed = 3;
+    private const float _minSpeed = 0.2f;
+    private const float _maxSpeed = 0.5f;
+    private const int _reward = _gameDurationInSeconds / _circleDurationInSeconds - 1;
 
     public ReactTapGame CreateNewGame()
     {
@@ -44,7 +45,8 @@ public class ReactTapGameManager : IReactTapGameManager
             Speed = speed,
             DurationInSeconds = _circleDurationInSeconds,
             Color = color,
-            Path = CreateRandomPath()
+            Path = CreateRandomPath(),
+            Reward = _reward
         };
     }
 
