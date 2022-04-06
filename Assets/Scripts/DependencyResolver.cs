@@ -6,26 +6,32 @@ public class DependencyResolver : MonoInstaller
     {
         Container.Bind<IMemorySquaresGameManager>()
             .To<MemorySquaresGameManager>()
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
 
         Container.Bind<IQuickCalculationsGameManager>()
             .To<QuickCalculationsGameManager>()
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
 
         Container.Bind<IQuickEyeGameManager>()
             .To<QuickEyeGameManager>()
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
 
         Container.Bind<IReactTapGameManager>()
             .To<ReactTapGameManager>()
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
 
         Container.Bind<IScoreManager>()
             .To<ScoreManager>()
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
 
         Container.Bind<IScoreRepository>()
             .To<ScoreRepository>()
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
     }
 }

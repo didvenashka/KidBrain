@@ -17,6 +17,8 @@ public static class ColorPicker
         Color.MediumPurple
     };
 
+    public static List<Color> Colors => _colors;
+
     public static Color GetRandomColor()
     {
         var index = _random.Next(_colors.Count);

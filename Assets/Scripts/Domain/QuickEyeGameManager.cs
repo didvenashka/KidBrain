@@ -6,10 +6,11 @@ public class QuickEyeGameManager : IQuickEyeGameManager
 {
     private readonly Random _random = new Random();
     //private readonly IPicturesRepository _picturesRepository;
-    private const int _numberOfPictures = 10; //TODO get number from repository (+ create PicturesRepository)
+    private const int _numberOfPictures = 8; //TODO get number from repository (+ create PicturesRepository)
     private const int _numberOfMatches = 10;
     private const int _numberOfVariants = 4;
     private const int _durationOfAllVariantsInSeconds = 2;
+    private const int _reward = 10;
     //TODO add rotation (0, 90, 180, 270) + pictureId -> PictureModel + pictureCollectionId
 
     public QuickEyeGameManager(/*IPicturesRepository picturesRepository*/)
@@ -66,7 +67,8 @@ public class QuickEyeGameManager : IQuickEyeGameManager
         {
             MainPictureId = mainPictureId,
             VariantsIds = variantsIds,
-            DurationOfAllVariantsInSeconds = durationOfAllVariantsInSeconds
+            DurationOfAllVariantsInSeconds = durationOfAllVariantsInSeconds,
+            Reward = _reward
         };
     }
 }
